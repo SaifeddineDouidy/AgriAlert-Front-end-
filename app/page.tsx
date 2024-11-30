@@ -20,9 +20,10 @@ export default async function Home() {
   return (
     <Main>
       <Section>
+      {/* <NavBar/> */}
         <Container>
           <Hero/>
-          <FeatureLeft/>
+          {/* <FeatureLeft/> */}
           <FeatureRight/>
           <Services/>
         </Container>

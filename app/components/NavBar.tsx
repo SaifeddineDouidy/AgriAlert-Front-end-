@@ -1,8 +1,7 @@
 "use client";
-
-import Image from "next/image";
-import Link from "next/link";
-import Logo from "../../public/netflix_logo.svg";
+// import Image from "next/image";
+// import Link from "next/link";
+// import Logo from "../../public/netflix_logo.svg";
 import { usePathname } from "next/navigation";
 import { Bell, Search } from "lucide-react";
 import UserNav from "./UserNav";
@@ -23,12 +22,10 @@ const links: linkProps[] = [
 export default function Navbar() {
   const pathName = usePathname();
   return (
-    <div className="w-full max-w-7xl mx-auto items-center justify-between px-5 sm:px-6 py-5 lg:px-8 flex">
+    <div className="w-full max-w-7xl mx-auto items-center justify-between px-5 sm:px-6 py-5 lg:px-8 flex shadow-md bg-grey bg-opacity-80">
       <div className="flex items-center">
-        <Link href="/home" className="w-32">
-          <Image src={Logo} alt="Netflix logo" priority />
-        </Link>
-        <ul className="lg:flex gap-x-4 ml-14 hidden">
+        {/* Uncomment the following section if you want to show the links */}
+        {/* <ul className="lg:flex gap-x-4 ml-14 hidden">
           {links.map((link, idx) => (
             <div key={idx}>
               {pathName === link.href ? (
@@ -52,12 +49,12 @@ export default function Navbar() {
               )}
             </div>
           ))}
-        </ul>
+        </ul> */}
       </div>
 
       <div className="flex items-center gap-x-8">
-        <Search className="w-5 h-5 text-gray-300 cursor-pointer" />
-        <Bell className="h-5 w-5 text-gray-300 cursor-pointer" />
+        <Search className="w-6 h-6 text-gray-700 cursor-pointer transition-transform transform hover:scale-110" />
+        <Bell className="h-6 w-6 text-gray-700 cursor-pointer transition-transform transform hover:scale-110" />
         <UserNav />
       </div>
     </div>

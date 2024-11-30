@@ -4,7 +4,7 @@ import Image from "next/image";
 
 // Third-party library imports
 import Balancer from "react-wrap-balancer";
-import { Camera } from "lucide-react";
+import { Droplet, Leaf } from "lucide-react";
 
 // Local component imports
 import { Section, Container } from "@/components/craft";
@@ -24,26 +24,28 @@ const Hero = () => {
           alt="Company Logo"
           className="not-prose mb-6 dark:invert md:mb-8"
         />
-        <h1 className="!mb-0">
+        <h1 className="!mb-0 text-green-700 dark:text-green-400">
           <Balancer>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Optimisez la gestion de l'eau pour une agriculture durable.
           </Balancer>
         </h1>
-        <h3 className="text-muted-foreground">
+        <h3 className="text-muted-foreground text-gray-600 dark:text-gray-300">
           <Balancer>
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-            nisi ut aliquip ex ea commodo consequat.
+            Notre solution connectée vous aide à économiser l'eau tout en
+            maximisant vos rendements agricoles.
           </Balancer>
         </h3>
         <div className="not-prose mt-6 flex gap-2 md:mt-12">
-          <Button asChild>
+          <Button variant={"default"} asChild>
             <Link href="/">
-              <Camera className="mr-2" />
-              Lorem Ipsum
+              <Droplet className="mr-2" />
+              Découvrir la Solution
             </Link>
           </Button>
           <Button variant={"ghost"} asChild>
-            <Link href="/posts">Dolor Sit Amet -{">"}</Link>
+            <Link href="/posts">
+              En savoir plus <Leaf className="ml-1" />
+            </Link>
           </Button>
         </div>
       </Container>

@@ -60,9 +60,7 @@ export default function Footer() {
             </Link>
             <p>
               <Balancer>
-                brijr/components is a collection of Next.js, React, Typescript
-                components for building landing pages and websites.
-              </Balancer>
+              WaterDrop is a service designed to assist farmers and agriculturalists by automating water management for their crops, ensuring optimal irrigation and resource efficiency.              </Balancer>
             </p>
             <div className="flex gap-2">
               <Button variant="outline" size="icon">
@@ -87,7 +85,7 @@ export default function Footer() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Subscribe for Company Updates</FormLabel>
+                    <FormLabel>Subscribe for Updates</FormLabel>
                     <FormControl>
                       <Input
                         className="md:w-96"
@@ -96,7 +94,7 @@ export default function Footer() {
                       />
                     </FormControl>
                     <FormDescription>
-                      Lorem ipsum dolor sit amet.
+                      Get emails about some new features !
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -114,7 +112,6 @@ export default function Footer() {
           </div>
           <p className="text-muted-foreground">
             ©{" "}
-            <a href="https://github.com/brijr/components">brijr/components</a>.
             All rights reserved. 2024-present.
           </p>
         </Container>

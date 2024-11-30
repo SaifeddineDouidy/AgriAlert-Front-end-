@@ -10,6 +10,11 @@ const config: Config = {
   theme: {
   	extend: {
 		colors: {
+			
+			'light-green': '#43A047', // Light green color
+			'light-green-foreground': '#2D6A4F', // Darker green text for contrast
+			"light-blue": "#A8DADC",
+			 
 			background: 'hsl(0, 0%, 98%)', // Changed to a lighter color
 			foreground: 'hsl(0, 0%, 20%)', // Dark text for contrast
 			card: {
@@ -50,6 +55,7 @@ const config: Config = {
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
   			}
+			
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
