@@ -74,7 +74,7 @@ const SensorPage: React.FC = () => {
       }
     };
   
-    const interval = setInterval(fetchTemperature, 5000);
+    const interval = setInterval(fetchTemperature, 1000);
   
     return () => clearInterval(interval);
   }, []);
