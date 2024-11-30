@@ -44,42 +44,48 @@ const SensorPage: React.FC = () => {
     ],
   });
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    const fetchTemperature = async () => {
-      try {
-        const response = await axios.get<ApiResponse>(
-          "https://recommendationmodel-cfb9fycaguhpegbs.spaincentral-01.azurewebsites.net/start_temp_simulation"
-        );
-        const { temperature } = response.data;
-  
-        setChartData((prevState) => {
-          const newLabels = [...prevState.labels, new Date().toLocaleTimeString()];
-          const newData = [...prevState.datasets[0].data, temperature];
-  
-          const trimmedLabels = newLabels.slice(-10);
-          const trimmedData = newData.slice(-10);
-  
-          return {
-            labels: trimmedLabels,
-            datasets: [
-              {
-                ...prevState.datasets[0],
-                data: trimmedData,
-              },
-            ],
-          };
-        });
-      } catch (error) {
-        console.error("Error fetching temperature data:", error);
-      }
+    const eventSource = new EventSource(
+      "https://recommendationmodel-cfb9fycaguhpegbs.spaincentral-01.azurewebsites.net/start_temp_simulation"
+    );
+
+    eventSource.onmessage = (event) => {
+      const parsedData = JSON.parse(event.data);
+      const temperature = parsedData.temperature;
+
+      setChartData((prevState) => {
+        const newLabels = [...prevState.labels, new Date().toLocaleTimeString()];
+        const newData = [...prevState.datasets[0].data, temperature];
+
+        const trimmedLabels = newLabels.slice(-10);
+        const trimmedData = newData.slice(-10);
+
+        return {
+          labels: trimmedLabels,
+          datasets: [
+            {
+              ...prevState.datasets[0],
+              data: trimmedData,
+            },
+          ],
+        };
+      });
+
+      setIsLoading(false); // Stop loading spinner once the first data point arrives
     };
-  
-    const interval = setInterval(fetchTemperature, 5000);
-  
-    return () => clearInterval(interval);
+
+    eventSource.onerror = (error) => {
+      console.error("Error with SSE:", error);
+      eventSource.close();
+    };
+
+    return () => {
+      eventSource.close();
+    };
   }, []);
   
-
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Dynamic Temperature Chart</h2>
