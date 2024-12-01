@@ -38,9 +38,12 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {/* Render NavBar and Footer conditionally based on authentication status */}
-        {!isAuthenticated && <NavBar />}
+        {!isAuthenticated && <NavBar/>}
+        {/* <NavBar/> */}
         <NextAuthProvider>{children}</NextAuthProvider>
-        {!isAuthenticated && <Footer />}
+        {/* <Footer/> */}
+        {!isAuthenticated && <Footer/>}
+        
       </body>
     </html>
   );

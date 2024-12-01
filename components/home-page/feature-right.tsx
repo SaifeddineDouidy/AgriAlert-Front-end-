@@ -14,10 +14,10 @@ const FeatureRight = () => {
     <Section>
       <Container className="grid items-stretch md:grid-cols-2 md:gap-12">
         <div className="flex flex-col gap-6 py-8">
-          <h3 className="!my-0">Lorem ipsum dolor sit</h3>
+          <h3 className="!my-0">Amane</h3>
           <p className="font-light leading-[1.4] opacity-70">
-            Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-            labore et dolore magna aliqua.
+          Amane is more than a service — 
+          it's a partner in your mission to grow efficiently, sustainably, and wisely. Together, let’s nurture a future where water resources are preserved, crops thrive, and agriculture becomes a model of sustainability.
           </p>
           <div className="not-prose flex items-center gap-2">
             <Button className="w-fit" asChild>

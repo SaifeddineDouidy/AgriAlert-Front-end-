@@ -1,7 +1,10 @@
 "use client";
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
 import { useContext, createContext, useState, ReactNode } from "react";
-import { useRouter } from "next/navigation"; // Import useRouter
+import { useRouter } from "next/navigation"; 
+import Logo from "@/public/hero_dummy_image.svg";
+import Image from "next/image";
+
 
 const SidebarContext = createContext<{ expanded: boolean }>({ expanded: true });
 
@@ -18,10 +21,12 @@ export default function Sidebar({ children, name, email }: SidebarProps) {
     <aside className={`h-screen ${expanded ? 'w-64' : 'w-16'} transition-all bg-white border-r shadow-sm`}>
       <nav className="h-full flex flex-col">
         <div className="p-4 pb-2 flex justify-between items-center">
-          <img
-            src="https://img.logoipsum.com/243.svg"
-            className={`overflow-hidden transition-all ${expanded ? "w-32" : "w-0"}`}
-            alt="Logo"
+          <Image
+            src={Logo}
+            width={142}
+            height={72}
+            alt="Company Logo"
+            className="not-prose mb-6 dark:invert md:mb-8"
           />
           <button
             onClick={() => setExpanded((curr) => !curr)}

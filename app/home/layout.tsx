@@ -23,9 +23,9 @@ export default async function HomeLayout({
   return (
     <div className="flex h-screen">
       <Sidebar name={userName} email={userEmail}>
-        <SidebarItem icon={<Home />} text={"Home"} href="/" />
-        <SidebarItem icon={<User />} text={"Profile"} href="/profile" />
+        <SidebarItem icon={<Home />} text={"Home"} href="/home" />
         <SidebarItem icon={<FileText />} text={"Sensor State"} href="/sensor" />
+        <SidebarItem icon={<User />} text={"Profile"} href="/profile" />
         <SidebarItem icon={<Settings />} text={"Settings"} href="/settings" />
         <SidebarItem icon={<HelpCircle />} text={"Help"} href="/help" />
       </Sidebar>
