@@ -20,7 +20,7 @@ const IrrigationStatusCards: React.FC<IrrigationStatusCardsProps> = ({ modelResp
   // Predefined card configurations
   const cardConfigs: CardConfig[] = [
     {
-      key: "Alert",
+      key: "ALERT",
       label: "Alert",
       icon: AlertTriangle,
       iconColor: "text-red-500",
@@ -50,36 +50,20 @@ const IrrigationStatusCards: React.FC<IrrigationStatusCardsProps> = ({ modelResp
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-4 mt-4">
+    <div className="grid grid-cols-2 gap-4">
       {cardConfigs.map((config) => (
         <Card
           key={config.key}
-          className={`transition-all duration-300 border-2 ${
-            modelResponse === config.key 
-              ? `${config.activeClassName} border-opacity-100` 
-              : 'border-opacity-20 bg-white'
-          }`}
+          className={`max-w-xs border-2 ${modelResponse === config.key ? config.activeClassName : "border-gray-300"}`}
         >
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{config.label}</CardTitle>
-            <config.icon 
-              className={`h-6 w-6 ${
-                modelResponse === config.key 
-                  ? config.iconColor 
-                  : 'text-muted-foreground'
-              }`} 
-            />
+          <CardHeader>
+            <div className="flex items-center">
+              <config.icon className={`${config.iconColor} mr-2`} />
+              <CardTitle>{config.label}</CardTitle>
+            </div>
           </CardHeader>
           <CardContent>
-            <div className={`text-2xl font-bold ${
-              modelResponse === config.key 
-                ? (config.key === "Alert" ? "text-red-600" : 
-                   config.key === "No adjustment" ? "text-green-600" : 
-                   config.key === "Irrigation ON" ? "text-blue-600" : "text-gray-600")
-                : "text-gray-400"
-            }`}>
-              {modelResponse === config.key ? "Active" : "Inactive"}
-            </div>
+            {modelResponse === config.key ? "Active" : "Inactive"}
           </CardContent>
         </Card>
       ))}
