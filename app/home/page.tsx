@@ -78,6 +78,8 @@ export default function HomePage() {
           console.error(`Error parsing data from ${endpoint}:`, error);
         }
       };
+    
+      connect();
       return source;
     };
     
