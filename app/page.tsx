@@ -1,9 +1,10 @@
 import { Main, Section, Container, Box } from "@/components/craft";
 import FeatureLeft from "@/components/home-page/feature-left";
 import FeatureRight from "@/components/home-page/feature-right";
+import FeatureRight2 from "@/components/home-page/feature-right2";
+import FeatureLeft2 from "@/components/home-page/feature-left2";
 import Hero from "@/components/home-page/hero";
 import Services from "@/components/home-page/services";
-import { NavBar } from "@/components/navbar";
 
 export default async function Home() {
   // Remove the session check and redirection logic
@@ -20,11 +21,12 @@ export default async function Home() {
   return (
     <Main>
       <Section>
-      {/* <NavBar/> */}
         <Container>
           <Hero/>
-          {/* <FeatureLeft/> */}
           <FeatureRight/>
+           <FeatureLeft/>
+           <FeatureRight2/>
+           <FeatureLeft2/>
           <Services/>
         </Container>
       </Section>

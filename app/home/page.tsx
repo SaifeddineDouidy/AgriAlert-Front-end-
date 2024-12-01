@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import IrrigationStatusCards from "../components/IrrigationStatus";
 
 export default function HomePage() {
   // Weather and sensor states
@@ -15,7 +16,7 @@ export default function HomePage() {
     currentConductivity: 0,
     environmentHumidity: 0,
     environmentTemperature: 0,
-    soilTemperature: 0, // Added soil temperature
+    temperature: 0, // Added soil temperature
   });
 
   // Model response state
@@ -61,22 +62,32 @@ export default function HomePage() {
     const startEventSource = (endpoint: string, key: string) => {
       const source = new EventSource(`${baseUrl}${endpoint}`);
       source.onmessage = (event) => {
-        const parsedData = JSON.parse(event.data);
-        const value = Math.round(parsedData[key]);
-        setSensorData((prev) => ({
-          ...prev,
-          [key]: value,
-        }));
+        console.log(`Data from ${endpoint}:`, event.data); // Log raw data
+        try {
+          const parsedData = JSON.parse(event.data);
+          const value = Math.round(parsedData[key]);
+          if (!isNaN(value)) {
+            setSensorData((prev) => ({
+              ...prev,
+              [key]: value,
+            }));
+          } else {
+            console.warn(`Key "${key}" not found in data from ${endpoint}`);
+          }
+        } catch (error) {
+          console.error(`Error parsing data from ${endpoint}:`, error);
+        }
       };
       return source;
     };
+    
 
     const sources = [
       startEventSource("/start_humidity_simulation", "currentHumidity"),
       startEventSource("/start_conductivity_simulation", "currentConductivity"),
       startEventSource("/start_env_humidity_simulation", "environmentHumidity"),
       startEventSource("/start_env_temperature_simulation", "environmentTemperature"),
-      startEventSource("/start_temp_simulation", "soilTemperature"), // Added soil temperature
+      startEventSource("/start_temp_simulation", "temperature"), // Added soil temperature
     ];
 
     fetchWeatherData();
@@ -91,7 +102,7 @@ export default function HomePage() {
     features: [
       sensorData.currentConductivity,
       sensorData.currentHumidity,
-      sensorData.soilTemperature, // Use soil temperature
+      sensorData.temperature, // Use soil temperature
       sensorData.environmentHumidity,
       sensorData.environmentTemperature,
       weatherSummary.totalRain,
@@ -128,7 +139,7 @@ export default function HomePage() {
       <p>Current Conductivity: {sensorData.currentConductivity}</p>
       <p>Environment Temperature: {sensorData.environmentTemperature}°C</p>
       <p>Environment Humidity: {sensorData.environmentHumidity}%</p>
-      <p>Soil Temperature: {sensorData.soilTemperature}°C</p> {/* Display soil temperature */}
+      <p>Soil Temperature: {sensorData.temperature}°C</p> {/* Display soil temperature */}
 
       <button onClick={sendDataToModel}>Send Data to Model</button>
 
@@ -138,6 +149,9 @@ export default function HomePage() {
           <p>{modelResponse}</p>
         </div>
       )}
+
+<IrrigationStatusCards modelResponse={modelResponse} />
+
     </div>
   );
 }

@@ -2,9 +2,8 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
 import { useContext, createContext, useState, ReactNode } from "react";
 import { useRouter } from "next/navigation"; 
-import Logo from "@/public/hero_dummy_image.svg";
+import Logo from "@/public/amane.svg";
 import Image from "next/image";
-
 
 const SidebarContext = createContext<{ expanded: boolean }>({ expanded: true });
 
@@ -20,17 +19,30 @@ export default function Sidebar({ children, name, email }: SidebarProps) {
   return (
     <aside className={`h-screen ${expanded ? 'w-64' : 'w-16'} transition-all bg-white border-r shadow-sm`}>
       <nav className="h-full flex flex-col">
-        <div className="p-4 pb-2 flex justify-between items-center">
-          <Image
-            src={Logo}
-            width={142}
-            height={72}
-            alt="Company Logo"
-            className="not-prose mb-6 dark:invert md:mb-8"
-          />
+        <div className="p-4 pb-2 flex flex-col items-center">
+          <div className={`flex items-center ${expanded ? 'ml-3' : ''}`}>
+            <Image
+              src={Logo}
+              width={142}
+              height={72}
+              alt="Amane Logo"
+              className={`transition-all dark:invert ${expanded ? 'block' : 'hidden'}`} // Show logo only when expanded
+            />
+            <div className={`w-10 h-10 rounded-full flex justify-center items-center ${expanded ? 'hidden' : 'block'}`}>
+              <Image
+                src={Logo}
+                width={32}
+                height={32}
+                alt="Company Logo"
+                className="dark:invert"
+              />
+            </div>
+          </div>
+          
+          {/* Move the button below the logo when minimized */}
           <button
             onClick={() => setExpanded((curr) => !curr)}
-            className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
+            className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 mt-4"
           >
             {expanded ? <ChevronFirst /> : <ChevronLast />}
           </button>
@@ -42,7 +54,7 @@ export default function Sidebar({ children, name, email }: SidebarProps) {
           </ul>
         </SidebarContext.Provider>
 
-        <div className="border-t flex p-3">
+        <div className="border-t flex p-3 items-center space-x-3">
           <img
             src={`https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=c7d2fe&color=3730a3&bold=true`}
             alt="User Avatar"
@@ -50,9 +62,7 @@ export default function Sidebar({ children, name, email }: SidebarProps) {
           />
 
           <div
-            className={`flex justify-between items-center overflow-hidden transition-all ${
-              expanded ? "ml-3" : "w-0"
-            }`}
+            className={`flex justify-between items-center overflow-hidden transition-all ${expanded ? "ml-3" : "w-0"}`}
           >
             <div className="leading-4">
               <h4 className="font-semibold">{name}</h4>
@@ -79,7 +89,6 @@ export function SidebarItem({ icon, text, href = "/", active, alert }: SidebarIt
   const router = useRouter();
 
   const handleClick = () => {
-    // Navigate to the specified href
     router.push(href);
   };
 
@@ -92,12 +101,16 @@ export function SidebarItem({ icon, text, href = "/", active, alert }: SidebarIt
           : "hover:bg-indigo-50 text-gray-600"
       }`}
     >
-      {icon}
+      <div className={`${expanded ? 'text-xl' : 'text-2xl'} transition-all`}>
+        {icon}
+      </div>
+
       <span
         className={`overflow-hidden transition-all ${expanded ? "ml-3" : "w-0"}`}
       >
         {text}
       </span>
+
       {alert && (
         <div
           className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${expanded ? "" : "top-2"}`}

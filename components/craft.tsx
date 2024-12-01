@@ -128,7 +128,7 @@ const Main = ({ children, className, id }: MainProps) => {
 
 const Section = ({ children, className, id }: SectionProps) => {
   return (
-    <section className={cn("py-8 md:py-12", className)} id={id}>
+    <section className={cn("py-4 md:py-8", className)} id={id}>
       {children}
     </section>
   );
@@ -139,7 +139,7 @@ const Section = ({ children, className, id }: SectionProps) => {
 
 const Container = ({ children, className, id }: ContainerProps) => {
   return (
-    <div className={cn("mx-auto max-w-5xl", "p-6 sm:p-8", className)} id={id}>
+    <div className={cn("mx-auto max-w-9xl", "p-6 sm:p-8", className)} id={id}>
       {children}
     </div>
   );

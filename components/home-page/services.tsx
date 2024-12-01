@@ -1,4 +1,3 @@
-// React and Next.js
 import React from "react";
 
 // Layout Components
@@ -16,22 +15,22 @@ type FeatureText = {
 
 const featureText: FeatureText[] = [
   {
-    icon: <Droplet className="h-6 w-6 text-blue-500" />,
-    title: "Gestion Optimale de l'Eau",
+    icon: <Droplet className="h-7 w-7 text-blue-500" />, // Slightly larger icons
+    title: "Optimal Water Management",
     description:
-      "Suivez et contrôlez l'irrigation en temps réel grâce à des capteurs intelligents pour réduire le gaspillage d'eau.",
+      "Monitor and control irrigation in real-time with smart sensors to reduce water waste.",
   },
   {
-    icon: <Leaf className="h-6 w-6 text-green-500" />,
-    title: "Soutien à l'Agriculture Durable",
+    icon: <Leaf className="h-7 w-7 text-green-500" />,
+    title: "Support Sustainable Agriculture",
     description:
-      "Nos outils permettent une gestion respectueuse de l'environnement, favorisant des pratiques agricoles écoresponsables.",
+      "Our tools promote eco-friendly practices, enabling environmentally responsible farming.",
   },
   {
-    icon: <Sun className="h-6 w-6 text-yellow-500" />,
-    title: "Optimisation des Rendements",
+    icon: <Sun className="h-7 w-7 text-yellow-500" />,
+    title: "Maximize Yields",
     description:
-      "Analysez les besoins de vos cultures et optimisez les ressources pour obtenir des rendements maximaux.",
+      "Analyze your crop needs and optimize resources to achieve maximum yields.",
   },
 ];
 
@@ -39,30 +38,39 @@ const Services = () => {
   return (
     <Section className="border-b">
       <Container className="not-prose">
-        <div className="flex flex-col gap-6">
-          <h3 className="text-4xl text-green-700 dark:text-green-400">
+        <div className="flex flex-col gap-8">
+          {/* Title */}
+          <h2 className="text-center text-6xl font-bold text-green-700 dark:text-green-400">
+            <Balancer>Our Services</Balancer>
+          </h2>
+
+          {/* Subtitle */}
+          <h3 className="text-center text-3xl font-semibold text-green-700 dark:text-green-400">
             <Balancer>
-              Transformez votre gestion de l'eau avec nos solutions innovantes
+              Transform your water management with our innovative solutions
             </Balancer>
           </h3>
-          <h4 className="text-2xl font-light text-gray-600 dark:text-gray-300">
+
+          {/* Supporting Text */}
+          <h4 className="text-center text-2xl font-light text-gray-600 dark:text-gray-300">
             <Balancer>
-              Une approche durable et intelligente pour une agriculture
-              performante
+              A sustainable and intelligent approach for high-performance
+              agriculture
             </Balancer>
           </h4>
 
-          <div className="mt-6 grid gap-6 md:mt-12 md:grid-cols-3">
+          {/* Features */}
+          <div className="mt-6 grid gap-8 md:mt-12 md:grid-cols-3">
             {featureText.map(({ icon, title, description }, index) => (
               <div
-                className="flex flex-col gap-4 border p-4 rounded-lg shadow-md hover:shadow-lg"
+                className="flex flex-col gap-4 border p-6 rounded-lg shadow-md hover:shadow-lg"
                 key={index}
               >
                 {icon}
-                <h4 className="text-xl text-blue-600 dark:text-blue-400">
+                <h4 className="text-2xl font-semibold text-blue-600 dark:text-blue-400">
                   {title}
                 </h4>
-                <p className="text-base text-gray-700 dark:text-gray-300 opacity-90">
+                <p className="text-lg text-gray-700 dark:text-gray-300 opacity-90">
                   {description}
                 </p>
               </div>
