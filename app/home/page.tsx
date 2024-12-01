@@ -19,42 +19,40 @@ export default function HomePage() {
     temperature: 0,
   });
 
+  const [receivedSensors, setReceivedSensors] = useState<Record<string, boolean>>({
+    humidity: false,
+    conductivity: false,
+    env_humidity: false,
+    env_temperature: false,
+    temperature: false,
+  });
+
   const [modelResponse, setModelResponse] = useState("");
   const [dataCollectionPaused, setDataCollectionPaused] = useState(false);
 
   const baseUrl =
     "https://recommendationmodel-cfb9fycaguhpegbs.spaincentral-01.azurewebsites.net";
 
-  const prepareModelData = useCallback(() => {
-    const data = {
-      features: [
-        sensorData.conductivity,
-        sensorData.humidity,
-        sensorData.temperature,
-        sensorData.env_humidity,
-        sensorData.env_temperature,
-        weatherSummary.totalRain,
-        weatherSummary.avgHumidity,
-        weatherSummary.avgEvapotranspiration,
-      ],
-    };
-
-    // Log the prepared data to ensure it's correct
-    console.log("Prepared Model Data:", data);
-
-    return data;
-  }, [sensorData, weatherSummary]);
+  const prepareModelData = useCallback(() => ({
+    features: [
+      sensorData.conductivity,
+      sensorData.humidity,
+      sensorData.temperature,
+      sensorData.env_humidity,
+      sensorData.env_temperature,
+      weatherSummary.totalRain,
+      weatherSummary.avgHumidity,
+      weatherSummary.avgEvapotranspiration,
+    ],
+  }), [sensorData, weatherSummary]);
 
   const sendDataToModel = useCallback(async () => {
     const url = `${baseUrl}/predict_irrigation`;
     const data = prepareModelData();
 
-    console.log("Sending data to model:", data); // Log data being sent
-
     try {
       const response = await axios.post(url, data);
-      console.log("Model Response:", response); // Log the response from the model
-      setModelResponse(response.data.prediction || "No response message provided.");
+      setModelResponse(response.data.message || "No response message provided.");
     } catch (error) {
       console.error("Error sending data to the model:", error);
       setModelResponse("An error occurred while communicating with the model.");
@@ -62,15 +60,46 @@ export default function HomePage() {
   }, [prepareModelData]);
 
   useEffect(() => {
-    // Commenting out the sensor data collection part and adding random values for now.
-    const randomSensorData = () => {
-      return {
-        humidity: Math.round(Math.random() * 100), // Random humidity between 0 and 100
-        conductivity: Math.random() * 10, // Random conductivity value (0 - 10)
-        env_humidity: Math.round(Math.random() * 100), // Random environment humidity between 0 and 100
-        env_temperature: Math.random() * 40, // Random environment temperature (0 - 40°C)
-        temperature: Math.random() * 35, // Random soil temperature (0 - 35°C)
-      };
+    const sensorEndpoints = [
+      { endpoint: "/start_humidity_simulation", key: "humidity" },
+      { endpoint: "/start_conductivity_simulation", key: "conductivity" },
+      { endpoint: "/start_env_humidity_simulation", key: "env_humidity" },
+      { endpoint: "/start_env_temperature_simulation", key: "env_temperature" },
+      { endpoint: "/start_temp_simulation", key: "temperature" },
+    ];
+
+    const handleSensorData = (key: string, value: number) => {
+      setSensorData((prev) => ({ ...prev, [key]: value }));
+      setReceivedSensors((prev) => ({ ...prev, [key]: true }));
+    };
+
+    const startEventSources = () => {
+      const sources = sensorEndpoints.map(({ endpoint, key }) => {
+        const source = new EventSource(`${baseUrl}${endpoint}`);
+
+        source.onmessage = (event) => {
+          try {
+            const parsedData = JSON.parse(event.data);
+            const value = parsedData[key];
+
+            if (value !== undefined && !isNaN(Number(value))) {
+              console.log(`Received data for ${key}:`, value);
+              handleSensorData(key, Math.round(Number(value)));
+            }
+          } catch (error) {
+            console.error(`Error processing data from ${endpoint}:`, error);
+          }
+        };
+
+        source.onerror = (error) => {
+          console.error(`Error with EventSource for ${endpoint}:`, error);
+          source.close();
+        };
+
+        return source;
+      });
+
+      return sources;
     };
 
     const fetchWeatherData = async () => {
@@ -81,11 +110,11 @@ export default function HomePage() {
         forecast_days: 3,
       };
       const url = "https://api.open-meteo.com/v1/forecast";
-    
+
       try {
         const response = await axios.get(url, { params });
         const hourly = response.data.hourly;
-    
+
         const totalRain = hourly.rain.reduce((sum: number, value: number) => sum + value, 0);
         const avgHumidity =
           hourly.relative_humidity_2m.reduce((sum: number, value: number) => sum + value, 0) /
@@ -93,7 +122,7 @@ export default function HomePage() {
         const avgEvapotranspiration =
           hourly.et0_fao_evapotranspiration.reduce((sum: number, value: number) => sum + value, 0) /
           hourly.et0_fao_evapotranspiration.length;
-    
+
         setWeatherSummary({
           totalRain: Number(totalRain.toFixed(2)),
           avgHumidity: Number(avgHumidity.toFixed(2)),
@@ -108,20 +137,35 @@ export default function HomePage() {
       if (!dataCollectionPaused) {
         console.log("Starting data collection...");
         fetchWeatherData();
-        
-        // Set random sensor data for now
-        setSensorData(randomSensorData());
+        const sources = startEventSources();
 
-        // Send data to the model
-        sendDataToModel();
+        const interval = setInterval(() => {
+          const allSensorsReceived = Object.values(receivedSensors).every(Boolean);
 
-        // Pause for an hour
-        setDataCollectionPaused(true);
+          if (allSensorsReceived) {
+            console.log("All sensor data received. Sending data to the model...");
 
-        setTimeout(() => {
-          console.log("Resuming data collection...");
-          setDataCollectionPaused(false);
-        }, 60 * 60 * 1000); // 1 hour
+            // Send data to the model
+            sendDataToModel();
+
+            // Pause for an hour
+            setDataCollectionPaused(true);
+            sources.forEach((source) => source.close());
+            clearInterval(interval);
+
+            setTimeout(() => {
+              console.log("Resuming data collection...");
+              setReceivedSensors({
+                humidity: false,
+                conductivity: false,
+                env_humidity: false,
+                env_temperature: false,
+                temperature: false,
+              });
+              setDataCollectionPaused(false);
+            }, 60 * 60 * 1000); // 1 hour
+          }
+        }, 1000);
       }
     };
 
@@ -130,7 +174,7 @@ export default function HomePage() {
     return () => {
       setDataCollectionPaused(true);
     };
-  }, [sendDataToModel, dataCollectionPaused]);
+  }, [sendDataToModel, receivedSensors]);
 
   return (
     <div className="p-4">
