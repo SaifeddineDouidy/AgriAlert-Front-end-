@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import { authOptions } from "../utils/auth";
 import { redirect } from "next/navigation";
 import Sidebar, { SidebarItem } from "../components/SideBar";
-import { Home, Settings, User, FileText, HelpCircle } from "lucide-react"; 
+import { Home, Settings, User, FileText, HelpCircle ,MessageSquare} from "lucide-react"; 
 import Navbar from "../components/NavBar";
 
 export default async function HomeLayout({
@@ -25,6 +25,7 @@ export default async function HomeLayout({
       <Sidebar name={userName} email={userEmail}>
         <SidebarItem icon={<Home />} text={"Home"} href="/home" />
         <SidebarItem icon={<FileText />} text={"Sensor State"} href="/sensor" />
+        <SidebarItem icon={<MessageSquare />} text={"Chatbot"} href="/chatbot" />
         <SidebarItem icon={<User />} text={"Profile"} href="/profile" />
         <SidebarItem icon={<Settings />} text={"Settings"} href="/settings" />
         <SidebarItem icon={<HelpCircle />} text={"Help"} href="/help" />

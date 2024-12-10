@@ -6,7 +6,7 @@ import Link from "next/link";
 import * as React from "react";
 import { Dialog, DialogClose } from "./ui/dialog";
 import { Button } from "./ui/button";
-import Logo from "@/public/amane.svg";
+import Logo from "@/public/amane.png";
 import Image from "next/image";
 import {
   NavigationMenu,

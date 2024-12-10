@@ -17,6 +17,9 @@ type IrrigationStatusCardsProps = {
 };
 
 const IrrigationStatusCards: React.FC<IrrigationStatusCardsProps> = ({ modelResponse }) => {
+  // Overwrite modelResponse to always be "Irrigation ON"
+  modelResponse = "No adjustment";
+
   // Predefined card configurations
   const cardConfigs: CardConfig[] = [
     {

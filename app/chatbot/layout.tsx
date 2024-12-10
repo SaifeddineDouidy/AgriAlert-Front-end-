@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import { authOptions } from "../utils/auth";
 import { redirect } from "next/navigation";
 import Sidebar, { SidebarItem } from "../components/SideBar";
-import { Home, Settings, User, FileText, HelpCircle,MessageSquare } from "lucide-react"; 
+import { Home, Settings, User, FileText, HelpCircle, MessageSquare } from "lucide-react"; 
 import Navbar from "../components/NavBar";
 
 export default async function HomeLayout({

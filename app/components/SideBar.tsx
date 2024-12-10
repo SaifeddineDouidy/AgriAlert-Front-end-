@@ -2,7 +2,7 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
 import { useContext, createContext, useState, ReactNode } from "react";
 import { useRouter } from "next/navigation"; 
-import Logo from "@/public/amane.svg";
+import Logo from "@/public/amane.png";
 import Image from "next/image";
 
 const SidebarContext = createContext<{ expanded: boolean }>({ expanded: true });

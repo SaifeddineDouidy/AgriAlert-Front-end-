@@ -9,7 +9,7 @@ import Balancer from "react-wrap-balancer";
 import { Section, Container } from "./craft";
 
 // Asset imports
-import Logo from "@/public/amane.svg"; // Updated logo path
+import Logo from "@/public/amane.png"; // Updated logo path
 
 export default function Footer() {
   return (
@@ -18,10 +18,10 @@ export default function Footer() {
         <Container className="grid gap-12 md:grid-cols-[1.5fr_0.5fr_0.5fr]">
           <div className="grid gap-6">
             <Link href="/">
-              <h3 className="sr-only">Amane</h3> {/* Updated company name */}
+              <h3 className="sr-only">Falah-IA</h3> {/* Updated company name */}
               <Image
                 src={Logo}
-                alt="Amane"
+                alt="felah-ia"
                 width={150}
                 height={40}
                 className="transition-all hover:opacity-75 dark:invert"
@@ -29,12 +29,12 @@ export default function Footer() {
             </Link>
             <p>
               <Balancer>
-                Amane is a service designed to assist farmers and agriculturalists by automating water management for their crops, ensuring optimal irrigation and resource efficiency.
+                Falah-IA is a service designed to assist farmers and agriculturalists by automating water management for their crops, ensuring optimal irrigation and resource efficiency.
               </Balancer>
             </p>
             <p className="text-muted-foreground">
               ©{" "}
-              <a href="https://github.com/brijr/components">Amane</a> {/* Updated link */}
+              <a href="https://github.com/brijr/components">Falah-IA</a> {/* Updated link */}
               . All rights reserved. 2024-present.
             </p>
           </div>
